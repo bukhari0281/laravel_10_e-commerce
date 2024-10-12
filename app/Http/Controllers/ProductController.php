@@ -14,7 +14,7 @@ class ProductController extends Controller
      */
     public function index()
     { 
-        $products = Product::all();
+        $products = Product::paginate(15);
         
         return view('be.product.index')->with('products', $products); 
     }
@@ -24,7 +24,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('be.product.create');
     }
 
     /**
@@ -49,7 +49,7 @@ class ProductController extends Controller
         // Jika validasi berhasil, simpan data
         $products = Product::create($request->all());
 
-        return view('be.product.index')->with('products', $products);
+        return redirect()->route('product.index', compact('products'));
 
     }
 
@@ -66,7 +66,9 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $product = Product::find($id);
+        
+        return view('be.product.update')->with('product', $product); 
     }
 
     /**
