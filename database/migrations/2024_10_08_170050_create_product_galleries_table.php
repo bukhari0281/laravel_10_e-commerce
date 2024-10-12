@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('product_galleries', function (Blueprint $table) {
             $table->id();
 
-            $table->bigInteger('products_id');
+            $table->foreignId("products_id")->constrained("products");
             $table->string('url');
 
             $table->softDeletes();

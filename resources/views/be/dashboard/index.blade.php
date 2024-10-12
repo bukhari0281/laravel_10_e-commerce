@@ -1,4 +1,6 @@
 @extends('be.utils.app')
+@section('title', 'Dashboard')
+
 @section('content')
 <button class="btn btn-dark mb-3" id="sidebarToggle">Toggle Sidebar</button>
 <div class="glassmorphism">

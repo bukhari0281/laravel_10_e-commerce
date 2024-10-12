@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->float('price');
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('stock')->nullable();
 
             $table->string('is_active')->default(1);

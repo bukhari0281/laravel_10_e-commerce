@@ -1,4 +1,11 @@
 @extends('be.utils.app')
+
+@push('css')
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css">
+@endpush
+
+@section('title', 'Product')
+
 @section('content')
 <button class="btn btn-dark mb-3" id="sidebarToggle">Toggle Sidebar</button>
 <div class="glassmorphism">
@@ -9,7 +16,7 @@
         </a>
     </div>
     <div class="table-responsive">
-        <table class="table table-dark table-striped">
+        <table class="table table-dark table-striped" id="datatable">
             <thead>
                 <tr>
                     <th>Number</th>
@@ -31,17 +38,19 @@
                         <td>${{ number_format($item->price, 2) }}</td>
                         <td>{{ Str::limit($item->description, 30) }}</td>
                         <td>{{ $item->stock }}</td>
-                        <td>
-                            <input type="checkbox" class="toggle-active" data-toggle="toggle" data-style="ios" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger" data-size="sm" {{ $item->is_active ? 'checked' : '' }} data-product-id="{{ $item->id }}">
-                        </td>
+                        @if ($item->is_active == 0)
+                            <td><span class="badge bg-danger">Inactive</span></td>
+                        @else
+                            <td><span class="badge bg-success">Active</span></td>
+                        @endif 
                         <td>{{ $item->tags }}</td>
                         <td>
-                            <button class="btn btn-sm btn-info" title="Edit">
+                            <a class="btn btn-sm btn-info" href="{{ route('product.edit', $item->id) }}" title="Edit">
                                 <i class="bi bi-pencil"></i>
-                            </button>
-                            <button class="btn btn-sm btn-danger" title="Delete">
+                            </a>
+                            <a class="btn btn-sm btn-danger" title="Delete">
                                 <i class="bi bi-trash"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                 @empty
@@ -53,8 +62,20 @@
             </tbody>
         </table>
     </div>
-</div> 
-{{ $products->links() }}
+</div>  
+
+@push('js')
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#datatable').DataTable();
+        })
+    </script>
+@endpush
 
 @endsection
 
